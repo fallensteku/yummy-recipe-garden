@@ -9,6 +9,7 @@ import Recipes from "./pages/Recipes";
 import RecipeDetail from "./pages/RecipeDetail";
 import NotFound from "./pages/NotFound";
 import ChatBotPage from "./pages/ChatBotPage";
+import ChatButton from "./components/ChatButton";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/chat" element={<ChatBotPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ChatButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, ArrowLeft, Trash2 } from 'lucide-react';
+import { Send, Loader2, ArrowLeft, Trash2, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useDeepseek } from '../hooks/useDeepseek';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,11 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from 'sonner';
 
-const ChatBot = () => {
+interface ChatBotProps {
+  isPopup?: boolean;
+}
+
+const ChatBot = ({ isPopup = false }: ChatBotProps) => {
   const { messages, isLoading, sendMessage, clearMessages } = useDeepseek();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,13 +42,15 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-76px)]">
+    <div className="flex flex-col h-full">
       {/* Header */}
       <div className="border-b py-3 px-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link to="/recipes" className="p-2 hover:bg-sand-100 rounded-full">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
+          {!isPopup && (
+            <Link to="/recipes" className="p-2 hover:bg-sand-100 rounded-full">
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+          )}
           <h1 className="font-serif text-xl font-medium">Recipe Assistant</h1>
         </div>
         <Button

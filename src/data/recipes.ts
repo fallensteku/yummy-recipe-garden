@@ -1,4 +1,3 @@
-
 export interface Recipe {
   id: string;
   title: string;
@@ -11,6 +10,8 @@ export interface Recipe {
   servings: number;
   ingredients: string[];
   instructions: string[];
+  authorId?: string;
+  createdAt?: string;
 }
 
 export const recipes: Recipe[] = [
@@ -230,4 +231,34 @@ export const getRecipeById = (id: string): Recipe | undefined => {
 
 export const getRecipesByCategory = (category: string): Recipe[] => {
   return recipes.filter(recipe => recipe.category === category);
+};
+
+export const getUserRecipes = (userId: string): Recipe[] => {
+  return recipes.filter(recipe => recipe.authorId === userId);
+};
+
+export const addRecipe = (recipe: Omit<Recipe, 'id'>): Recipe => {
+  const newRecipe: Recipe = {
+    ...recipe,
+    id: (recipes.length + 1).toString(),
+  };
+  
+  recipes.push(newRecipe);
+  return newRecipe;
+};
+
+export const updateRecipe = (id: string, updates: Partial<Recipe>): Recipe | undefined => {
+  const recipeIndex = recipes.findIndex(recipe => recipe.id === id);
+  if (recipeIndex === -1) return undefined;
+  
+  recipes[recipeIndex] = { ...recipes[recipeIndex], ...updates };
+  return recipes[recipeIndex];
+};
+
+export const deleteRecipe = (id: string): boolean => {
+  const recipeIndex = recipes.findIndex(recipe => recipe.id === id);
+  if (recipeIndex === -1) return false;
+  
+  recipes.splice(recipeIndex, 1);
+  return true;
 };
